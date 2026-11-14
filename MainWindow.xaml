@@ -838,5 +838,6 @@
                 </Grid>
             </Border>
         </Grid>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,2" FontSize="10" Foreground="#7F8EA3" IsHitTestVisible="False" Text="made by jy01.ahn"/>
     </Grid>
 </Window>
