@@ -12,6 +12,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <AssemblyTitle>Compare</AssemblyTitle>
+    <Product>Compare</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(ILuncherIntegrated)' == 'true'">

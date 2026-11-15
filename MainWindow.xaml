@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:FolderCompareWPF"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         Icon="/FolderCompareWPF;component/Assets/FolderCompare.ico"
-        Title="File Compare · 파일 비교"
+        Title="Compare · 파일 비교"
         Width="1280"
         Height="760"
         MinWidth="960"
@@ -351,7 +351,7 @@
                 <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Image Source="Assets/FolderCompare.png" Width="22" Height="22" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    <TextBlock Text="FILE COMPARE" Margin="10,0,0,0" FontSize="11" FontWeight="SemiBold" Foreground="#CFDCEF" VerticalAlignment="Center"/>
+                    <TextBlock Text="COMPARE" Margin="10,0,0,0" FontSize="11" FontWeight="SemiBold" Foreground="#CFDCEF" VerticalAlignment="Center"/>
                     <Border Width="1" Height="12" Margin="14,0" Background="#344156"/>
                     <TextBlock Text="파일 비교" FontSize="11" Foreground="#8FA2BC" VerticalAlignment="Center"/>
                 </StackPanel>
