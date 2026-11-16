@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FolderCompareWPF
+namespace Compare
 {
     public class DifferLike
     {

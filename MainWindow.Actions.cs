@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 public partial class MainWindow
 {

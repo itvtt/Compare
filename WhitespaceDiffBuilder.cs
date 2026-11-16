@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 internal static class WhitespaceDiffBuilder
 {

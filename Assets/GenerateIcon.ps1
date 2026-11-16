@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName PresentationCore, WindowsBase
-$iconPath = Join-Path $PSScriptRoot 'FolderCompare.ico'
+$iconPath = Join-Path $PSScriptRoot 'Compare.ico'
 $frames = @()
 foreach ($size in @(16, 24, 32, 48, 64, 128, 256)) {
     $visual = New-Object System.Windows.Media.DrawingVisual
@@ -19,7 +19,7 @@ foreach ($size in @(16, 24, 32, 48, 64, 128, 256)) {
     $stream = [System.IO.MemoryStream]::new()
     $encoder.Save($stream)
     $frames += ,$stream.ToArray()
-    if ($size -eq 256) { [System.IO.File]::WriteAllBytes((Join-Path $PSScriptRoot 'FolderCompare.png'), $stream.ToArray()) }
+    if ($size -eq 256) { [System.IO.File]::WriteAllBytes((Join-Path $PSScriptRoot 'Compare.png'), $stream.ToArray()) }
     $stream.Dispose()
 }
 $output = [System.IO.File]::Create($iconPath)

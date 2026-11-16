@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.Json;
 
-namespace FolderCompareWPF
+namespace Compare
 {
     public class PathSettings
     {
@@ -13,15 +13,21 @@ namespace FolderCompareWPF
 
         private static string SettingsFilePath => SettingsPathOverride ??
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "FolderCompareWPF", "lastpaths.json");
+                "Compare", "lastpaths.json");
+
+        // 예전 이름(FolderCompareWPF, 2026-11-16 Compare 로 바꿈)의 설정: 새 파일이 없으면 이것을 읽고, 저장은 새 위치에
+        private static string FormerSettingsFilePath =>
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FolderCompareWPF", "lastpaths.json");
 
         public static PathSettings Load()
         {
             try
             {
-                if (File.Exists(SettingsFilePath))
+                string path = SettingsFilePath;
+                if (!File.Exists(path) && SettingsPathOverride is null && File.Exists(FormerSettingsFilePath)) path = FormerSettingsFilePath;
+                if (File.Exists(path))
                 {
-                    string json = File.ReadAllText(SettingsFilePath);
+                    string json = File.ReadAllText(path);
                     var loaded = JsonSerializer.Deserialize<PathSettings>(json);
                     if (loaded != null) return loaded;
                 }

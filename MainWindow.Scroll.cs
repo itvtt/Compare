@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Color = System.Windows.Media.Color;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 public partial class MainWindow
 {

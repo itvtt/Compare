@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 internal sealed class FileListEntry : INotifyPropertyChanged
 {

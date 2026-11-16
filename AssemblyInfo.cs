@@ -1,3 +1,3 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("FolderCompareWPF.DemoVerifier")]
+[assembly: InternalsVisibleTo("Compare.DemoVerifier")]

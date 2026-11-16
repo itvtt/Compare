@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 internal static class SelectedFileCopier
 {
@@ -12,7 +12,7 @@ internal static class SelectedFileCopier
         if (string.Equals(source, destination, StringComparison.OrdinalIgnoreCase))
             throw new IOException("A와 B가 같은 파일입니다.");
         Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-        string staging = Path.Combine(Path.GetDirectoryName(destination)!, ".foldercompare-" + Guid.NewGuid().ToString("N") + ".tmp");
+        string staging = Path.Combine(Path.GetDirectoryName(destination)!, ".compare-" + Guid.NewGuid().ToString("N") + ".tmp");
         try
         {
             File.Copy(source, staging, overwrite: false);

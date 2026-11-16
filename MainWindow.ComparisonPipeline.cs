@@ -6,7 +6,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 public partial class MainWindow
 {

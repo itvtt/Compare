@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 public partial class MainWindow
 {

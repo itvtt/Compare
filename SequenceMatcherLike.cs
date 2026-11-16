@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FolderCompareWPF
+namespace Compare
 {
     public class SequenceMatcherLike
     {

@@ -3,7 +3,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace FolderCompareWPF
+namespace Compare
 {
     public static class DiffDocumentBuilder
     {

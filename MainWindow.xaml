@@ -1,9 +1,9 @@
-﻿<Window x:Class="FolderCompareWPF.MainWindow"
+﻿<Window x:Class="Compare.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:FolderCompareWPF"
+        xmlns:local="clr-namespace:Compare"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
-        Icon="/FolderCompareWPF;component/Assets/FolderCompare.ico"
+        Icon="/Compare;component/Assets/Compare.ico"
         Title="Compare · 파일 비교"
         Width="1280"
         Height="760"
@@ -350,7 +350,7 @@
             <Grid Margin="18,0,8,0">
                 <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Image Source="Assets/FolderCompare.png" Width="22" Height="22" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Image Source="Assets/Compare.png" Width="22" Height="22" RenderOptions.BitmapScalingMode="HighQuality"/>
                     <TextBlock Text="COMPARE" Margin="10,0,0,0" FontSize="11" FontWeight="SemiBold" Foreground="#CFDCEF" VerticalAlignment="Center"/>
                     <Border Width="1" Height="12" Margin="14,0" Background="#344156"/>
                     <TextBlock Text="파일 비교" FontSize="11" Foreground="#8FA2BC" VerticalAlignment="Center"/>
@@ -395,7 +395,7 @@
                                 Margin="0,0,8,0"
                                 Background="{StaticResource AccentSoftBrush}"
                                 CornerRadius="9">
-                            <Image Source="Assets/FolderCompare.png" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image Source="Assets/Compare.png" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Border>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="파일 비교"

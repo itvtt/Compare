@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 internal static partial class FilePairComparer
 {

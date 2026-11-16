@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 internal static class ComparisonWorkers
 {

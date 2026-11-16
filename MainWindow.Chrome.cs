@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace FolderCompareWPF;
+namespace Compare;
 
 public partial class MainWindow
 {

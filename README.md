@@ -1,6 +1,6 @@
 # Compare
 
-> **이름**: 런처·창 제목에 보이는 이름과 저장소·폴더 이름은 **Compare** 입니다(예전 표시 이름 File Compare). 코드와 설치 이름은 예전 이름 **FolderCompareWPF** 그대로입니다: 프로젝트 `FolderCompareWPF.csproj`, 실행 파일 `FolderCompareWPF.exe`, 설치 폴더 `%LOCALAPPDATA%\Programs\FolderCompareWPF`, 런처 id `folder-compare`. 설치·자체 업데이트가 이 이름을 따르므로 바꾸지 않습니다. 사용자가 "Compare"·"폴더 비교"라고 하면 이 앱입니다.
+> **이름**: 런처·창 제목·저장소·폴더·코드·실행 파일·설치 이름 모두 **Compare** 입니다 (2026-11-16 예전 이름 FolderCompareWPF·File Compare 에서 모두 바꿈): 프로젝트 `Compare.csproj`(네임스페이스 `Compare`), 실행 파일 `Compare.exe`, 설치 폴더 `%LOCALAPPDATA%\Programs\Compare`, 런처 id `compare`, 설정 `%APPDATA%\Compare\lastpaths.json`. 예전 이름으로 설치된 것은 i-luncher 가 업데이트할 때 새 이름으로 옮기고(앱 목록의 `formerInstallNames`), 예전 설정 `%APPDATA%\FolderCompareWPF\lastpaths.json` 은 새 설정이 없을 때 읽습니다.
 
 Windows용 폴더 비교 및 텍스트 편집 도구 (.NET 10 WPF). i-luncher 로 설치·업데이트합니다: main 에 push 하면 이 저장소의 러너가 `.github\workflows\release.yml` 로 릴리스를 만들고(`build\Publish-App.ps1`), 런처가 설치하며, 설치된 앱은 시작할 때 스스로 업데이트합니다.
 
@@ -22,8 +22,8 @@ Windows용 폴더 비교 및 텍스트 편집 도구 (.NET 10 WPF). i-luncher �
 ## 빌드와 검증
 
 ```powershell
-dotnet build FolderCompareWPF.csproj -c Release
-dotnet run --project DemoData/DemoVerifier/FolderCompareWPF.DemoVerifier.csproj -c Release
+dotnet build Compare.csproj -c Release
+dotnet run --project DemoData/DemoVerifier/Compare.DemoVerifier.csproj -c Release
 ```
 
 검증기는 임시 폴더를 사용합니다. 비교·편집·저장, 선택 복사와 덮어쓰기 실패 시 보존, 공백 옵션 전환, 원본 내용 보존, 스크롤 표시와 긴 줄, 점진적 비교, 큰 파일 처리를 검증합니다. 탐색기 실행과 복사 확인 대화상자는 실제 사용 환경에서 수동 확인할 수 있습니다.

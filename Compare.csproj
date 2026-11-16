@@ -4,7 +4,7 @@
     <!-- 릴리스 버전의 바닥값: Actions 러너는 마지막 릴리스의 다음 번호를 고름 (예전 i-luncher 버전 1.0.1 부터 이어감) -->
     <Version>2.0.0</Version>
     <ProjectGuid>{DD3A6778-5C83-4DDE-BDBB-128AF0BF85D6}</ProjectGuid>
-    <ApplicationIcon>Assets\FolderCompare.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\Compare.ico</ApplicationIcon>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\FolderCompare.ico" />
-    <Resource Include="Assets\FolderCompare.png" />
+    <Resource Include="Assets\Compare.ico" />
+    <Resource Include="Assets\Compare.png" />
     <Compile Remove="DemoData\DemoVerifier\**\*.cs" />
   </ItemGroup>
 
