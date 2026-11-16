@@ -1,8 +1,8 @@
-# FolderCompareWPF
+# Compare
 
-Windows용 폴더 비교 및 텍스트 편집 도구 (.NET 10 WPF). 기본 빌드는 i-luncher에 통합되는 라이브러리이며, 런처 프로세스에서 바로 창을 엽니다. 별도 EXE가 필요하면 이 프로젝트를 `-p:ILuncherIntegrated=false`로 빌드하세요.
+> **이름**: 런처·창 제목에 보이는 이름과 저장소·폴더 이름은 **Compare** 입니다(예전 표시 이름 File Compare). 코드와 설치 이름은 예전 이름 **FolderCompareWPF** 그대로입니다: 프로젝트 `FolderCompareWPF.csproj`, 실행 파일 `FolderCompareWPF.exe`, 설치 폴더 `%LOCALAPPDATA%\Programs\FolderCompareWPF`, 런처 id `folder-compare`. 설치·자체 업데이트가 이 이름을 따르므로 바꾸지 않습니다. 사용자가 "Compare"·"폴더 비교"라고 하면 이 앱입니다.
 
-Send / Receive로 소스를 동기화할 때는 상위 i-luncher 폴더의 `Build.ps1 -App folder-compare`로 빌드하고 `Start-Launcher.cmd`로 실행하세요. 아래의 직접 빌드·실행 명령은 [로컬 작업 복사본](../README.md)에서 사용해야 원본 clone에 빌드 폴더가 생기지 않습니다.
+Windows용 폴더 비교 및 텍스트 편집 도구 (.NET 10 WPF). i-luncher 로 설치·업데이트합니다: main 에 push 하면 이 저장소의 러너가 `.github\workflows\release.yml` 로 릴리스를 만들고(`build\Publish-App.ps1`), 런처가 설치하며, 설치된 앱은 시작할 때 스스로 업데이트합니다.
 
 기본 윈도우 제목 표시줄 대신 앱 테마에 맞춘 상단 바를 사용합니다. 상단을 드래그해 창을 이동하고, 두 번 클릭해 최대화/복원할 수 있습니다. 오른쪽 버튼으로 최소화·최대화/복원·닫기를 실행합니다. 파일 비교 진행 정보는 왼쪽에 유지됩니다.
 
