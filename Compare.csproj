@@ -30,6 +30,9 @@
     <Resource Include="Assets\Compare.ico" />
     <Resource Include="Assets\Compare.png" />
     <Compile Remove="DemoData\DemoVerifier\**\*.cs" />
+    <!-- 확인 프로젝트(Compare.Checks)는 따로 빌드·실행 -->
+    <Compile Remove="Compare.Checks\**" />
+    <None Remove="Compare.Checks\**" />
   </ItemGroup>
 
   <!-- i-luncher AppKit: 자체 업데이트(update.json)와 릴리스 zip -->

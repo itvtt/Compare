@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Compare 확인 (창을 띄우지 않음): 비교 결과 HTML, 텍스트 비교 화면과 모드 전환.
+       인자 snapshot: 텍스트 비교 화면을 PNG 로, live-share: 이 PC 의 File Shared 에 실제로 올리고 내려받아 확인 -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Compare.csproj" />
+  </ItemGroup>
+</Project>

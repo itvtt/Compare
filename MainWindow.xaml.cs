@@ -64,6 +64,10 @@ namespace Compare
             _pathSettings = PathSettings.Load();
             if (!string.IsNullOrEmpty(_pathSettings.LastDirA)) TxtDirA.Text = _pathSettings.LastDirA;
             if (!string.IsNullOrEmpty(_pathSettings.LastDirB)) TxtDirB.Text = _pathSettings.LastDirB;
+
+            // 붙여 넣을 때 글꼴·색 같은 서식은 빼고 글자만 (비교는 글자만 보므로)
+            System.Windows.DataObject.AddPastingHandler(RtbDiffA, PastePlainText);
+            System.Windows.DataObject.AddPastingHandler(RtbDiffB, PastePlainText);
         }
 
         private void BtnBrowseA_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -165,7 +169,7 @@ namespace Compare
 
         private async void BtnCompare_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (_comparisonCancellation != null || _isCopying) return;
+            if (_comparisonCancellation != null || _isCopying || _isTextMode) return;
             string dirA;
             string dirB;
             try
@@ -217,6 +221,7 @@ namespace Compare
             TxtDirA.IsEnabled = false;
             TxtDirB.IsEnabled = false;
             BtnSave.IsEnabled = false;
+            RbModeText.IsEnabled = false;
 
             _lastReport = null;
             _dirA = dirA;
@@ -274,6 +279,7 @@ namespace Compare
                 BtnBrowseB.IsEnabled = true;
                 TxtDirA.IsEnabled = true;
                 TxtDirB.IsEnabled = true;
+                RbModeText.IsEnabled = true;
 
                 if (ReferenceEquals(_comparisonCancellation, comparisonCancellation))
                 {
@@ -594,10 +600,10 @@ namespace Compare
             UpdateEditorState();
         }
 
-        private List<DiffRow> BuildRowsForEditors(string? textA, string? textB)
+        private List<DiffRow> BuildRowsForEditors(string? textA, string? textB, bool? ignoreWhitespace = null)
         {
             if (textA != null && textB != null)
-                return BuildDifflibStyleDiff(textA.Split('\n'), textB.Split('\n'));
+                return BuildDifflibStyleDiff(textA.Split('\n'), textB.Split('\n'), ignoreWhitespace);
 
             if (textA != null)
             {
@@ -674,7 +680,9 @@ namespace Compare
 
         private void RtbDiffA_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (_isLoadingEditors || _currentRelativePath == null || _fileDataA == null)
+            if (_isLoadingEditors) return;
+            if (_isTextMode) { OnTextEdited(RtbDiffA, LnDiffA); return; }
+            if (_currentRelativePath == null || _fileDataA == null)
                 return;
 
             _isDirtyA = true;
@@ -686,7 +694,9 @@ namespace Compare
 
         private void RtbDiffB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (_isLoadingEditors || _currentRelativePath == null || _fileDataB == null)
+            if (_isLoadingEditors) return;
+            if (_isTextMode) { OnTextEdited(RtbDiffB, LnDiffB); return; }
+            if (_currentRelativePath == null || _fileDataB == null)
                 return;
 
             _isDirtyB = true;
@@ -798,11 +808,20 @@ namespace Compare
 
         private void UpdateEditorState()
         {
+            if (_isTextMode)
+            {
+                TxtFileA.Text = "A · 입력";
+                TxtFileB.Text = "B · 입력";
+                BtnSaveFileA.IsEnabled = BtnSaveFileB.IsEnabled = false;
+                UpdateShareButton();
+                return;
+            }
             string rel = _currentRelativePath ?? "파일 없음";
             TxtFileA.Text = _fileDataA == null ? "A · 파일 없음" : $"A · {rel}{(_isDirtyA ? " *" : "")}";
             TxtFileB.Text = _fileDataB == null ? "B · 파일 없음" : $"B · {rel}{(_isDirtyB ? " *" : "")}";
             BtnSaveFileA.IsEnabled = _fileDataA != null && _isDirtyA;
             BtnSaveFileB.IsEnabled = _fileDataB != null && _isDirtyB;
+            UpdateShareButton();
         }
 
         private static string GetDocumentText(FlowDocument document)
@@ -876,6 +895,13 @@ namespace Compare
 
         private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            if (_isTextMode && e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                CompareText();
+                e.Handled = true;
+                return;
+            }
+
             if (e.Key != Key.S || !Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                 return;
 
@@ -1054,9 +1080,9 @@ namespace Compare
             return rows;
         }
 
-        private List<DiffRow> BuildDifflibStyleDiff(string[] a, string[] b)
+        private List<DiffRow> BuildDifflibStyleDiff(string[] a, string[] b, bool? ignoreWhitespace = null)
         {
-            if (_ignoreWhitespace) return WhitespaceDiffBuilder.Build(a, b);
+            if (ignoreWhitespace ?? _ignoreWhitespace) return WhitespaceDiffBuilder.Build(a, b);
             var rows = new List<DiffRow>();
             var matcher = new SequenceMatcherLike();
             matcher.SetSeqs(a, b);

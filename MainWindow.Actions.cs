@@ -32,6 +32,13 @@ public partial class MainWindow
 
     private void IgnoreWhitespace_Click(object sender, RoutedEventArgs e)
     {
+        if (_isTextMode)
+        {
+            // 텍스트 비교는 폴더 비교 결과와 따로 기억 (폴더 결과를 다시 비교하지 않음)
+            _textIgnoreWhitespace = ChkIgnoreWhitespace.IsChecked == true;
+            CompareText();
+            return;
+        }
         if (_lastResult != null) BtnCompare_Click(BtnCompare, new RoutedEventArgs());
         else _ignoreWhitespace = ChkIgnoreWhitespace.IsChecked == true;
         if (_comparisonCancellation == null) ChkIgnoreWhitespace.IsChecked = _ignoreWhitespace;
@@ -48,6 +55,7 @@ public partial class MainWindow
             $"선택한 {selected.Length}개 파일을 복사합니다. B에 있는 파일은 덮어씁니다.\n\nA: {_dirA}\nB: {_dirB}\n\n{preview}",
             "선택 파일 A → B", MessageBoxButton.OKCancel, MessageBoxImage.Warning) != MessageBoxResult.OK) return;
         _isCopying = true;
+        RbModeText.IsEnabled = false;
         BtnCompare.IsEnabled = ChkIgnoreWhitespace.IsEnabled = TvFileList.IsEnabled = false;
         BtnBrowseA.IsEnabled = BtnBrowseB.IsEnabled = TxtDirA.IsEnabled = TxtDirB.IsEnabled = false;
         BtnSave.IsEnabled = false;
@@ -70,6 +78,7 @@ public partial class MainWindow
         finally
         {
             _isCopying = false;
+            RbModeText.IsEnabled = true;
             BtnCompare.IsEnabled = ChkIgnoreWhitespace.IsEnabled = TvFileList.IsEnabled = true;
             BtnBrowseA.IsEnabled = BtnBrowseB.IsEnabled = TxtDirA.IsEnabled = TxtDirB.IsEnabled = true;
             _isComparisonStale = true;

@@ -335,6 +335,49 @@
             </Setter>
         </Style>
 
+        <!-- 폴더 / 텍스트 전환 -->
+        <Style x:Key="ModeTabStyle" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="FontSize" Value="12.5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Chip" Background="Transparent" CornerRadius="6" Padding="13,5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chip" Property="Background" Value="#1B2533"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Chip" Property="Background" Value="{StaticResource AccentBrush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Chip" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CountNumberStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="CountLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Margin" Value="0,2,0,0"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
         <Style TargetType="ToolTip">
             <Setter Property="Background" Value="#202939"/>
             <Setter Property="Foreground" Value="White"/>
@@ -353,7 +396,7 @@
                     <Image Source="Assets/Compare.png" Width="22" Height="22" RenderOptions.BitmapScalingMode="HighQuality"/>
                     <TextBlock Text="COMPARE" Margin="10,0,0,0" FontSize="11" FontWeight="SemiBold" Foreground="#CFDCEF" VerticalAlignment="Center"/>
                     <Border Width="1" Height="12" Margin="14,0" Background="#344156"/>
-                    <TextBlock Text="파일 비교" FontSize="11" Foreground="#8FA2BC" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TxtModeTitle" Text="파일 비교" FontSize="11" Foreground="#8FA2BC" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button x:Name="BtnMinimize" Content="&#xE921;" Style="{StaticResource CaptionButtonStyle}" ToolTip="최소화" AutomationProperties.Name="최소화" Click="BtnMinimize_Click"/>
@@ -379,6 +422,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
@@ -389,28 +433,20 @@
                                   VerticalAlignment="Center"
                                   ToolTip="스페이스(띄어쓰기), 탭, 줄바꿈 차이를 무시하고 비교합니다. 문자열 안의 공백도 무시합니다. 원본 파일은 변경하지 않습니다. 16MB 이하 텍스트에 적용됩니다."
                                   Click="IgnoreWhitespace_Click"/>
-                        <Border DockPanel.Dock="Left"
-                                Width="34"
-                                Height="34"
-                                Margin="0,0,8,0"
-                                Background="{StaticResource AccentSoftBrush}"
-                                CornerRadius="9">
-                            <Image Source="Assets/Compare.png" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Border HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2"
+                                Background="{StaticResource SurfaceSubtleBrush}" BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1" CornerRadius="8">
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton x:Name="RbModeFolder" Content="폴더" GroupName="CompareMode" IsChecked="True"
+                                             Style="{StaticResource ModeTabStyle}" ToolTip="두 폴더 비교" Click="Mode_Click"/>
+                                <RadioButton x:Name="RbModeText" Content="텍스트" GroupName="CompareMode"
+                                             Style="{StaticResource ModeTabStyle}" ToolTip="직접 입력한 두 텍스트 비교" Click="Mode_Click"/>
+                            </StackPanel>
                         </Border>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="파일 비교"
-                                       FontSize="15"
-                                       FontWeight="SemiBold"
-                                       Foreground="{StaticResource TextPrimaryBrush}"/>
-                            <TextBlock Text="A ↔ B"
-                                       Margin="0,1,0,0"
-                                       FontSize="10.5"
-                                       Foreground="{StaticResource TextSecondaryBrush}"/>
-                        </StackPanel>
                     </DockPanel>
 
                     <!-- A/B selectors stay in one horizontal row -->
-                    <Grid Grid.Row="1" Margin="0,14,0,10">
+                    <Grid x:Name="GridFolderInputs" Grid.Row="1" Margin="0,14,0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="8"/>
@@ -474,9 +510,11 @@
                         </Border>
                     </Grid>
 
-                    <StackPanel Grid.Row="2" Margin="0,0,0,10">
+                    <StackPanel x:Name="PanelActions" Grid.Row="2" Margin="0,0,0,10">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="8"/>
                             <ColumnDefinition Width="*"/>
@@ -486,16 +524,56 @@
                                 Content="비교"
                                 Style="{StaticResource PrimaryButtonStyle}"
                                 Click="BtnCompare_Click"/>
+                        <Button x:Name="BtnTextCompare"
+                                Grid.Column="0"
+                                Content="비교"
+                                Visibility="Collapsed"
+                                ToolTip="두 텍스트 비교 (Ctrl+Enter)"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Click="BtnTextCompare_Click"/>
                         <Button x:Name="BtnSave"
                                 Grid.Column="2"
                                 Content="저장"
                                 Style="{StaticResource SecondaryButtonStyle}"
                                 Click="BtnSave_Click"/>
+                        <Button x:Name="BtnTextClear"
+                                Grid.Column="2"
+                                Content="지우기"
+                                Visibility="Collapsed"
+                                ToolTip="A·B 텍스트 모두 지우기"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Click="BtnTextClear_Click"/>
+                        <Button x:Name="BtnShare"
+                                Grid.Column="4"
+                                Content="공유"
+                                IsEnabled="False"
+                                ToolTip="보이는 비교 결과를 File Shared 링크로 만들기"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Click="BtnShare_Click"/>
                     </Grid>
                     </StackPanel>
 
-                    <Border x:Name="BorderCompareProgress"
+                    <Border x:Name="BorderShareLink"
                             Grid.Row="3"
+                            Visibility="Collapsed"
+                            Margin="0,0,0,10"
+                            Padding="8,7"
+                            Background="{StaticResource AccentSoftBrush}"
+                            BorderBrush="#304866"
+                            BorderThickness="1"
+                            CornerRadius="7">
+                        <DockPanel>
+                            <TextBlock x:Name="TxtShareLinkState" DockPanel.Dock="Top" Text="공유 링크 · 복사됨" FontSize="10.5" Foreground="#ABCDFE" Margin="1,0,0,5"/>
+                            <Button DockPanel.Dock="Right" Content="열기" MinWidth="44" Height="28" Margin="6,0,0,0"
+                                    ToolTip="브라우저로 열기" Style="{StaticResource EditorSaveButtonStyle}" Click="BtnOpenShareLink_Click"/>
+                            <Button DockPanel.Dock="Right" Content="복사" MinWidth="44" Height="28" Margin="6,0,0,0"
+                                    ToolTip="링크 복사" Style="{StaticResource EditorSaveButtonStyle}" Click="BtnCopyShareLink_Click"/>
+                            <TextBox x:Name="TxtShareLink" IsReadOnly="True" Style="{StaticResource PathTextBoxStyle}" Height="28" FontSize="11"/>
+                        </DockPanel>
+                    </Border>
+
+                    <Border x:Name="BorderCompareProgress"
+                            Grid.Row="4"
                             Visibility="Collapsed"
                             Margin="0,0,0,10"
                             Padding="8,7"
@@ -519,7 +597,42 @@
                         </DockPanel>
                     </Border>
 
-                    <Border Grid.Row="4"
+                    <Border x:Name="BorderTextSummary"
+                            Grid.Row="5"
+                            Visibility="Collapsed"
+                            VerticalAlignment="Top"
+                            Padding="10,12"
+                            Background="{StaticResource SurfaceSubtleBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="9">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock x:Name="TxtCountModified" Text="0" Foreground="#EEC54B" Style="{StaticResource CountNumberStyle}"/>
+                                    <TextBlock Text="바뀜" Style="{StaticResource CountLabelStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock x:Name="TxtCountOnlyA" Text="0" Foreground="#F9788B" Style="{StaticResource CountNumberStyle}"/>
+                                    <TextBlock Text="A에만" Style="{StaticResource CountLabelStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock x:Name="TxtCountOnlyB" Text="0" Foreground="#5CCF90" Style="{StaticResource CountNumberStyle}"/>
+                                    <TextBlock Text="B에만" Style="{StaticResource CountLabelStyle}"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock x:Name="TxtTextState" Margin="0,12,0,0" FontSize="11.5" TextAlignment="Center"
+                                       Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="BorderFileTree"
+                            Grid.Row="5"
                             Background="{StaticResource SurfaceSubtleBrush}"
                             BorderBrush="{StaticResource BorderBrush}"
                             BorderThickness="1"
@@ -550,7 +663,7 @@
                             </Border>
                         </Grid>
                     </Border>
-                    <Button x:Name="BtnCopySelected" Grid.Row="5"
+                    <Button x:Name="BtnCopySelected" Grid.Row="6"
                             Content="선택 파일 A → B 덮어쓰기 (0)" Margin="0,10,0,0"
                             FontSize="11" Style="{StaticResource SecondaryButtonStyle}" IsEnabled="False"
                             Click="BtnCopySelected_Click"/>

@@ -16,6 +16,8 @@ Windows용 폴더 비교 및 텍스트 편집 도구 (.NET 10 WPF). i-luncher �
 - 우측 색상 표시의 왼쪽 절반은 A, 오른쪽 절반은 B입니다. 테두리는 현재 보이는 범위이며, 색상 표시를 클릭하면 해당 행으로 이동합니다. 편집 중에는 오래된 표시를 숨기고 저장 후 갱신합니다.
 - 긴 줄은 가로로 스크롤합니다. 파일에 행을 추가하거나 제거해도 양쪽 스크롤은 대응하는 비교 행을 기준으로 동기화합니다.
 - 편집 후 A/B 저장 버튼 또는 Ctrl+S로 저장합니다. **저장** 버튼은 비교 보고서를 저장합니다.
+- 왼쪽 위 **폴더 | 텍스트** 로 바꿉니다. **텍스트**: 좌우 편집기에 직접 입력하거나 붙여 넣고(서식 없이 글자만) **비교**(Ctrl+Enter)를 누르면 같은 색 표시로 비교합니다. 고치면 "수정됨"으로 바뀌고 다시 비교하면 커서는 같은 자리로 돌아옵니다. 왼쪽에 바뀜 · A에만 · B에만 줄 수, **지우기**로 비웁니다. 공백·줄바꿈 무시는 폴더 비교와 따로 기억합니다. 모드를 오가도 입력한 글과 폴더 쪽에서 보던 파일은 그대로 돌아옵니다 (폴더 비교 · 복사 중에는 바꾸지 않음).
+- **공유**: 지금 보이는 비교 결과(텍스트 비교, 또는 폴더 비교에서 연 파일 · 저장하지 않은 수정 포함)를 HTML 파일 하나로 만들어 이 PC 의 **File Shared**(포트 5000)에 올리고 링크를 복사합니다. 받는 사람은 링크 → 다운로드 → 브라우저에서 좌우 표 · 줄 번호 · 바뀐 글자 강조를 봅니다 (먼 같은 줄은 접혀 있고 눌러서 펼침). 왼쪽 링크 칸에서 다시 복사 · 열기. File Shared 가 꺼져 있으면 알려 줍니다.
 
 아이콘 원본 생성 코드는 `Assets/GenerateIcon.ps1`에 있으며 16~256px ICO를 생성합니다.
 
@@ -23,10 +25,13 @@ Windows용 폴더 비교 및 텍스트 편집 도구 (.NET 10 WPF). i-luncher �
 
 ```powershell
 dotnet build Compare.csproj -c Release
-dotnet run --project DemoData/DemoVerifier/Compare.DemoVerifier.csproj -c Release
+dotnet run --project Compare.Checks -c Release                         # 공유 HTML · 텍스트 비교 · 모드 전환
+dotnet run --project Compare.Checks -c Release -- snapshot text.png    # 텍스트 비교 화면 (snapshot-folder 는 폴더 화면)
+dotnet run --project Compare.Checks -c Release -- html share.html      # 공유 HTML 견본
+dotnet run --project Compare.Checks -c Release -- live-share           # 이 PC 의 File Shared 에 실제로 올리고 링크로 받아 비교
 ```
 
-검증기는 임시 폴더를 사용합니다. 비교·편집·저장, 선택 복사와 덮어쓰기 실패 시 보존, 공백 옵션 전환, 원본 내용 보존, 스크롤 표시와 긴 줄, 점진적 비교, 큰 파일 처리를 검증합니다. 탐색기 실행과 복사 확인 대화상자는 실제 사용 환경에서 수동 확인할 수 있습니다.
+`Compare.Checks` 는 따로 빌드합니다 (`Compare.csproj` 는 그 폴더를 빼고 빌드). 탐색기 실행과 복사 확인 대화상자는 실제 사용 환경에서 수동 확인할 수 있습니다.
 
 ## 대량 파일 성능 개선
 
