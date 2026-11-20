@@ -86,6 +86,7 @@ public partial class MainWindow
             ResetCurrentEditor();
             UpdateCopyButton();
         }
+        if (copied > 0) ILuncher.AppKit.AppUsage.Count("copy", copied);
         System.Windows.MessageBox.Show($"복사 완료: {copied}개 · 실패: {failures.Count}개\n" + string.Join("\n", failures.Take(10)), "복사 결과");
         TxtDirA.Text = _dirA;
         TxtDirB.Text = _dirB;

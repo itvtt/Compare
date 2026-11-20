@@ -125,6 +125,7 @@ public partial class MainWindow
         RichTextBox? focused = RtbDiffA.IsKeyboardFocusWithin ? RtbDiffA : RtbDiffB.IsKeyboardFocusWithin ? RtbDiffB : null;
         var caret = focused != null ? CaretLineColumn(focused) : default;
         LoadTexts(GetDocumentText(RtbDiffA.Document), GetDocumentText(RtbDiffB.Document));
+        ILuncher.AppKit.AppUsage.Count("text");
         if (focused != null) PlaceCaret(focused, caret.Line, caret.Column);
     }
 
@@ -234,6 +235,7 @@ public partial class MainWindow
             Directory.CreateDirectory(folder);
             await File.WriteAllTextAsync(path, share.Html, new UTF8Encoding(false));
             ShowShareLink(await FileShared.ShareAsync(path));
+            ILuncher.AppKit.AppUsage.Count("share");
         }
         catch (Exception ex) when (ex is FileSharedException or IOException or UnauthorizedAccessException or HttpRequestException or TaskCanceledException)
         {

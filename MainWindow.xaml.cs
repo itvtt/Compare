@@ -244,6 +244,7 @@ namespace Compare
             try
             {
                 await RunComparisonPipelineAsync(dirA, dirB, cancellationToken);
+                ILuncher.AppKit.AppUsage.Count("folder", _processedFileCount);
 
                 if (_currentRelativePath == null)
                     ShowMessage("비교가 완료되었습니다. 파일을 선택하세요.");

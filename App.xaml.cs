@@ -12,6 +12,8 @@ namespace Compare
         protected override void OnStartup(System.Windows.StartupEventArgs e)
         {
             base.OnStartup(e);
+            // 사용 시간 · 비교 · 복사 · 공유 집계 (AppKit\AppUsage.cs → API 서버, ImPerformance 성과 계산용)
+            ILuncher.AppKit.AppUsage.Start();
             // i-luncher AppKit: 설치된 사본이면 시작할 때 GitHub 릴리스를 확인해 스스로 업데이트 (AppKit\AppUpdater.cs)
             ILuncher.AppKit.AppUpdater.StartBackground(ready => Dispatcher.BeginInvoke(() =>
             {
